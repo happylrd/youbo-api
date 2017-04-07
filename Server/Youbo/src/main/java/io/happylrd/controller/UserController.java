@@ -15,6 +15,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
     @GetMapping(value = "/users")
     public Result<List<User>> listUser() {
         return ResultUtil.success(userRepository.findAll());
