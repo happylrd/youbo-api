@@ -14,10 +14,10 @@ public class User {
     @GeneratedValue
     private Integer id;
 
-    @Column(unique = true, length = 30)
+    @Column(unique = true, length = 30, nullable = false, updatable = false)
     private String username;
 
-    @Column(length = 128)
+    @Column(length = 128, nullable = false)
     private String password;
 
     @Column(length = 20)

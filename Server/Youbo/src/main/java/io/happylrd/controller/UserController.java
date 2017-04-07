@@ -15,7 +15,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
     @GetMapping(value = "/users")
     public Result<List<User>> listUser() {
         return ResultUtil.success(userRepository.findAll());
@@ -32,12 +31,12 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/{id}")
-    public User updateUser(@PathVariable("id") Integer id, User user) {
-        return userRepository.save(user);
+    public Result<User> updateUser(@PathVariable("id") Integer id, User user) {
+        return ResultUtil.success(userRepository.save(user));
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void removeUser(@PathVariable("id") Integer id) {
         userRepository.delete(id);
     }
 }
