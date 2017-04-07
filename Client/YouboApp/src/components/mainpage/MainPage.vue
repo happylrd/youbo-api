@@ -3,6 +3,8 @@
     <Header></Header>
 
     <TweetItem></TweetItem>
+
+    <Register></Register>
   </div>
 </template>
 
@@ -10,10 +12,13 @@
   import Header from '../header/Header'
   import TweetItem from '../tweetitem/TweetItem'
 
+  import Register from '../register/Register'
+
   export default {
     components: {
       Header,
-      TweetItem
+      TweetItem,
+      Register
     }
   }
 </script>
