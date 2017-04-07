@@ -9,6 +9,8 @@
           <md-icon>search</md-icon>
         </md-button>
 
+        <md-button id="register">注册</md-button>
+
         <md-button id="login" @click.native="openDialog('loginDialog')">登录</md-button>
 
       </md-toolbar>

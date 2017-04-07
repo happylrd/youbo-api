@@ -18,7 +18,7 @@
           <md-input type="password" v-model="password"></md-input>
         </md-input-container>
 
-        <md-button class="md-raised md-primary" @click.native="doLogin">doLogin</md-button>
+        <md-button class="md-raised md-primary" @click.native="doLogin">登录</md-button>
       </md-card-content>
     </md-card>
   </div>

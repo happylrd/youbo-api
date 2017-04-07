@@ -11,6 +11,10 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
 
+Vue.material.registerTheme('default', {
+  primary: 'cyan'
+})
+
 const routes = []
 
 const router = new VueRouter({

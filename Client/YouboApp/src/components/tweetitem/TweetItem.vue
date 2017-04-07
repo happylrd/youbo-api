@@ -19,6 +19,8 @@
           <md-ink-ripple></md-ink-ripple>
         </md-card-media>
 
+        <md-card-content>{{tweet.content}}</md-card-content>
+
         <md-card-actions>
           <md-button class="md-icon-button">
             <md-icon>favorite</md-icon>
@@ -39,7 +41,13 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: {
+      tweet: {
+        type: Object
+      }
+    }
+  }
 </script>
 
 <style scoped>
