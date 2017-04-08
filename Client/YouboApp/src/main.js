@@ -5,6 +5,8 @@ import VueRouter from 'vue-router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import App from './App'
+import TweetList from './components/tweetlist/TweetList'
+import TweetDetail from './components/tweetdetail/TweetDetail'
 
 Vue.config.productionTip = false
 
@@ -15,9 +17,24 @@ Vue.material.registerTheme('default', {
   primary: 'cyan'
 })
 
-const routes = []
+const routes = [
+  {
+    path: '/',
+    component: TweetList,
+    redirect: '/tweets'
+  },
+  {
+    path: '/tweets',
+    component: TweetList
+  },
+  {
+    path: '/tweets/:id',
+    component: TweetDetail
+  }
+]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
