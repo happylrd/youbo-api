@@ -7,6 +7,7 @@ import 'vue-material/dist/vue-material.css'
 import App from './App'
 import TweetList from './components/tweetlist/TweetList'
 import TweetDetail from './components/tweetdetail/TweetDetail'
+import MePage from './components/mepage/MePage'
 
 Vue.config.productionTip = false
 
@@ -30,6 +31,10 @@ const routes = [
   {
     path: '/tweets/:id',
     component: TweetDetail
+  },
+  {
+    path: '/me',
+    component: MePage
   }
 ]
 

@@ -49,6 +49,9 @@
             if (this.username === this.user.username) {
               if (this.password === this.user.password) {
                 console.log('登录成功，欢迎你' + this.username)
+
+                // TODO: will be improved later
+                this.$emit('hasLogin', this.user)
               } else {
                 console.log('密码错误')
               }

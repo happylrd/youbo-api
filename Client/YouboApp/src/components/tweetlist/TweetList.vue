@@ -70,7 +70,6 @@
 
 <script>
   import TweetItem from '../tweetitem/TweetItem'
-  import MdListItem from '../../../node_modules/vue-material/src/components/mdList/mdListItemRouter'
 
   export default {
     props: {
@@ -80,7 +79,7 @@
       }
     },
     components: {
-      MdListItem, TweetItem
+      TweetItem
     }
   }
 </script>
