@@ -11,14 +11,14 @@
 
 
         <!--TODO: just a toy, will be modified later-->
-        <md-avatar v-if="username !== ''">
+        <md-avatar v-if="userinfo !== null">
           <img src="../../assets/youbo-logo.png" alt="Avatar">
         </md-avatar>
-        <span v-if="username !== ''">{{username}}</span>
+        <span v-if="userinfo !== null">{{userinfo.username}}</span>
 
 
-        <md-button v-if="username === ''" id="register" @click.native="openDialog('registerDialog')">注册</md-button>
-        <md-button v-if="username === ''" id="login" @click.native="openDialog('loginDialog')">登录</md-button>
+        <md-button v-if="userinfo === null" id="register" @click.native="openDialog('registerDialog')">注册</md-button>
+        <md-button v-if="userinfo === null" id="login" @click.native="openDialog('loginDialog')">登录</md-button>
 
       </md-toolbar>
 
@@ -34,13 +34,16 @@
 </template>
 
 <script>
+  import { saveToLocal, loadFromLocal, MOCK_ID } from '../../common/js/store'
   import Login from '../login/Login'
   import Register from '../register/Register'
 
   export default {
     data () {
       return {
-        username: ''
+        userinfo: (() => {
+          return loadFromLocal(MOCK_ID, 'userinfo', null)
+        })()
       }
     },
     methods: {
@@ -51,7 +54,7 @@
         this.$refs[ref].close()
       },
       onSuccessLogin (user) {
-        this.username = user.username
+        saveToLocal(MOCK_ID, 'userinfo', user)
         this.closeDialog('loginDialog')
       }
     },
