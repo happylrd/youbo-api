@@ -18,7 +18,9 @@
           <md-input type="password" v-model="password"></md-input>
         </md-input-container>
 
-        <md-button class="md-raised md-primary" @click.native="doLogin">登录</md-button>
+        <md-layout md-align="center">
+          <md-button class="md-raised md-primary" @click.native="doLogin">登录</md-button>
+        </md-layout>
       </md-card-content>
     </md-card>
   </div>
@@ -51,7 +53,7 @@
                 console.log('登录成功，欢迎你' + this.username)
 
                 // TODO: will be improved later
-                this.$emit('hasLogin', this.user)
+                this.$emit('loginSuccess', this.user)
               } else {
                 console.log('密码错误')
               }

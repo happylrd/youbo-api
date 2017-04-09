@@ -33,7 +33,7 @@ const routes = [
     component: TweetDetail
   },
   {
-    path: '/me',
+    path: '/users/:id/info',
     component: MePage
   }
 ]

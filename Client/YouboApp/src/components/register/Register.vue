@@ -6,9 +6,16 @@
       </md-card-header>
 
       <md-card-content>
+
         <md-input-container>
           <md-icon>account_circle</md-icon>
-          <label>用户名</label>
+          <label>昵称</label>
+          <md-input type="text" v-model="nickname" required></md-input>
+        </md-input-container>
+
+        <md-input-container>
+          <md-icon>account_circle</md-icon>
+          <label>手机/邮箱</label>
           <md-input type="text" v-model="username" required></md-input>
         </md-input-container>
 
@@ -18,26 +25,11 @@
           <md-input type="password" v-model="password" required></md-input>
         </md-input-container>
 
-        <md-input-container>
-          <md-icon>phone</md-icon>
-          <label>手机号</label>
-          <md-input type="number" v-model="mobile"></md-input>
-        </md-input-container>
-
-        <div>
-          <md-radio v-model="gender" md-value="male">男</md-radio>
-          <md-radio v-model="gender" md-value="female">女</md-radio>
-          <md-radio v-model="gender" md-value="unknown">未知</md-radio>
-        </div>
-
-        <md-input-container>
-          <md-icon>lock</md-icon>
-          <label>头像</label>
-          <md-file v-model="avatar" accept="image/*"></md-file>
-        </md-input-container>
-
-        <md-button class="md-raised md-primary" @click.native="doRegister">注册</md-button>
+        <md-layout md-align="center">
+          <md-button class="md-raised md-primary" @click.native="doRegister">注册</md-button>
+        </md-layout>
       </md-card-content>
+
     </md-card>
   </div>
 </template>
@@ -53,9 +45,7 @@
       return {
         username: '',
         password: '',
-        mobile: '',
-        gender: '',
-        avatar: null
+        nickname: ''
       }
     },
     methods: {
@@ -65,12 +55,13 @@
         Axios.post(USER_API, querystring.stringify({
           username: this.username,
           password: this.password,
-          mobile: this.mobile,
-          gender: this.gender
+          nickname: this.nickname
         }))
           .then((response) => {
             this.user = response.data.data
-            console.log(this.user)
+            console.log('注册成功，欢迎你' + this.user.nickname)
+
+            this.$emit('registerSuccess')
           })
           .catch(error => {
             console.log(error)

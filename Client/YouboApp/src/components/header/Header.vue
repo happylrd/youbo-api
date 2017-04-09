@@ -9,25 +9,26 @@
           <md-icon>search</md-icon>
         </md-button>
 
+        <router-link :to="userIdPath" v-if="userinfo !== null">
+          <div class="user-link-wrapper">
+            <md-avatar v-if="userinfo !== null">
+              <img src="../../assets/youbo-logo.png" alt="Avatar">
+            </md-avatar>
+            <span v-if="userinfo !== null">{{userinfo.nickname}}</span>
+          </div>
+        </router-link>
 
-        <!--TODO: just a toy, will be modified later-->
-        <md-avatar v-if="userinfo !== null">
-          <img src="../../assets/youbo-logo.png" alt="Avatar">
-        </md-avatar>
-        <span v-if="userinfo !== null">{{userinfo.username}}</span>
-
-
-        <md-button v-if="userinfo === null" id="register" @click.native="openDialog('registerDialog')">注册</md-button>
         <md-button v-if="userinfo === null" id="login" @click.native="openDialog('loginDialog')">登录</md-button>
+        <md-button v-if="userinfo === null" id="register" @click.native="openDialog('registerDialog')">注册</md-button>
 
       </md-toolbar>
 
       <md-dialog md-open-from="#login" md-close-to="#login" ref="loginDialog">
-        <Login @hasLogin="onSuccessLogin"></Login>
+        <Login @loginSuccess="onSuccessLogin"></Login>
       </md-dialog>
 
       <md-dialog md-open-from="#register" md-close-to="#register" ref="registerDialog">
-        <Register></Register>
+        <Register @registerSuccess="onSuccessRegister"></Register>
       </md-dialog>
     </div>
   </div>
@@ -46,6 +47,12 @@
         })()
       }
     },
+    computed: {
+      // TODO: solve the route problem with the dirty method, will be modified later
+      userIdPath () {
+        return 'users/' + this.userinfo.id + '/info'
+      }
+    },
     methods: {
       openDialog (ref) {
         this.$refs[ref].open()
@@ -56,6 +63,9 @@
       onSuccessLogin (user) {
         saveToLocal(MOCK_ID, 'userinfo', user)
         this.closeDialog('loginDialog')
+      },
+      onSuccessRegister () {
+        this.closeDialog('registerDialog')
       }
     },
     components: {
