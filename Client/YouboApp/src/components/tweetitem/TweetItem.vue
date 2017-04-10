@@ -12,8 +12,8 @@
               <img src="../../assets/youbo-logo.png" alt="Avatar">
             </md-avatar>
 
-            <div class="md-title">Username</div>
-            <div class="md-subhead">2017/01/01</div>
+            <div class="md-title">{{tweet.user.nickname}}</div>
+            <div class="md-subhead">{{tweet.user.addTime.year}}/{{tweet.user.addTime.monthValue}}/{{tweet.user.addTime.dayOfMonth}}</div>
           </md-card-header>
 
           <!--<md-card-media>-->
