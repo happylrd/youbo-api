@@ -20,7 +20,7 @@ public class User {
     @Column(length = 128, nullable = false)
     private String password;
 
-    @Column(length = 20)
+    @Column(unique = true, length = 20)
     private String nickname;
 
     @Column(length = 10)
