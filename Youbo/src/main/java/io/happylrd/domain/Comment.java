@@ -19,7 +19,8 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-    private LocalDateTime addTime = LocalDateTime.now();
+    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime updateTime;
 
     public Integer getId() {
         return id;
@@ -53,11 +54,19 @@ public class Comment {
         this.content = content;
     }
 
-    public LocalDateTime getAddTime() {
-        return addTime;
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
 
-    public void setAddTime(LocalDateTime addTime) {
-        this.addTime = addTime;
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
     }
 }

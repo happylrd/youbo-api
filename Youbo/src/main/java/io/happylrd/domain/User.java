@@ -1,9 +1,6 @@
 package io.happylrd.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -32,17 +29,24 @@ public class User {
     private String avatarUrl;
 
     /**
-     * Current constraint: `male` for 男生, `female` for 女生.
+     * Current constraint: `male` for 男生, `female` for 女生, `unknown` for 未知.
      * will be improved later.
      */
-    private String gender;
+    @Column(length = 7)
+    private String gender = "unknown";
 
     private LocalDate birthday;
 
     @Column(length = 150)
     private String description;
 
-    private LocalDateTime addTime = LocalDateTime.now();
+    /**
+     * `0` for normal user, `10` for administrator
+     */
+    private Integer role = 0;
+
+    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime updateTime;
 
     public User() {
     }
@@ -127,11 +131,27 @@ public class User {
         this.description = description;
     }
 
-    public LocalDateTime getAddTime() {
-        return addTime;
+    public Integer getRole() {
+        return role;
     }
 
-    public void setAddTime(LocalDateTime addTime) {
-        this.addTime = addTime;
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
     }
 }
