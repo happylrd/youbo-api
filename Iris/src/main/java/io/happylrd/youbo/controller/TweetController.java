@@ -1,7 +1,9 @@
 package io.happylrd.youbo.controller;
 
 import io.happylrd.youbo.common.ServerResponse;
+import io.happylrd.youbo.domain.Comment;
 import io.happylrd.youbo.domain.Tweet;
+import io.happylrd.youbo.repository.CommentRepository;
 import io.happylrd.youbo.repository.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,6 +16,9 @@ public class TweetController {
 
     @Autowired
     private TweetRepository tweetRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @GetMapping(value = "/tweets")
     public ServerResponse<List<Tweet>> list() {
@@ -40,5 +45,17 @@ public class TweetController {
     @DeleteMapping(value = "/tweets/{id}")
     public void remove(@PathVariable("id") Long id) {
         tweetRepository.delete(id);
+    }
+
+    @GetMapping(value = "/tweets/search")
+    public ServerResponse<List<Tweet>> listByContent(@RequestParam(value = "content") String content) {
+        return ServerResponse.createBySuccess(
+                tweetRepository.findByContentLikeIgnoreCase("%" + content + "%"));
+    }
+
+    @GetMapping(value = "/tweets/{id}/comments")
+    public ServerResponse<List<Comment>> listCommentByTweetId(@PathVariable("id") Long tweetId) {
+        return ServerResponse.createBySuccess(
+                commentRepository.findByTweet_IdOrderByCreateTimeDesc(tweetId));
     }
 }
