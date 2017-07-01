@@ -1,0 +1,9 @@
+server:
+  port: 8080
+ftp:
+  server:
+    ip: 127.0.0.1
+    http:
+      prefix: http://image.youbo.io/
+  username: youboadmin
+  password: 123456
