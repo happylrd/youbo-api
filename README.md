@@ -1,10 +1,10 @@
-# youbo-spring
+# youbo-api
 
-<img src="https://github.com/happylrd/youbo-vue/blob/master/Seria/src/common/image/logo.png" width="128" style="max-width:100%;" alt="Youbo">
+<img src="https://github.com/happylrd/youbo-cms/blob/master/kiri/src/common/image/logo.png" width="128" style="max-width:100%;" alt="Youbo">
 
 > Yet another pure and fresh micro blog.
 
-A api server for youbo app.
+A api server for youbo.
 
 ### Powered by
 
