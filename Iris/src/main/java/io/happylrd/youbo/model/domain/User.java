@@ -1,5 +1,6 @@
 package io.happylrd.youbo.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.happylrd.youbo.common.ModelConst;
 import org.hibernate.annotations.*;
 
@@ -25,6 +26,7 @@ public class User {
     @Column(unique = true, nullable = false, length = 128)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
