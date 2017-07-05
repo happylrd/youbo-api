@@ -1,6 +1,6 @@
-package io.happylrd.youbo.repository;
+package io.happylrd.youbo.repository.deprecated;
 
-import io.happylrd.youbo.domain.Tweet;
+import io.happylrd.youbo.model.deprecated.Tweet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

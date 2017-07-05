@@ -1,8 +1,8 @@
-package io.happylrd.youbo.controller;
+package io.happylrd.youbo.controller.deprecated;
 
 import io.happylrd.youbo.common.ServerResponse;
-import io.happylrd.youbo.domain.Comment;
-import io.happylrd.youbo.repository.CommentRepository;
+import io.happylrd.youbo.model.deprecated.Comment;
+import io.happylrd.youbo.repository.deprecated.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

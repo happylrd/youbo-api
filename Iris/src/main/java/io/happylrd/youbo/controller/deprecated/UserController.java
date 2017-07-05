@@ -1,11 +1,11 @@
-package io.happylrd.youbo.controller;
+package io.happylrd.youbo.controller.deprecated;
 
 import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.ServerResponse;
-import io.happylrd.youbo.domain.Tweet;
-import io.happylrd.youbo.domain.User;
-import io.happylrd.youbo.repository.TweetRepository;
-import io.happylrd.youbo.repository.UserRepository;
+import io.happylrd.youbo.model.deprecated.Tweet;
+import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.repository.deprecated.TweetRepository;
+import io.happylrd.youbo.repository.deprecated.UserRepository;
 import io.happylrd.youbo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
