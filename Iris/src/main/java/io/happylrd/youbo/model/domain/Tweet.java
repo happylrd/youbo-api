@@ -20,9 +20,6 @@ public class Tweet {
     @Column(updatable = false, nullable = false)
     private String id;
 
-    @Column(nullable = false)
-    private String txtContent;
-
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
@@ -35,12 +32,9 @@ public class Tweet {
     @JoinColumn(name = "creatorId")
     private User creator;
 
-    /**
-     * will be improved later
-     */
-    @OneToMany
-    @JoinColumn(name = "fragmentId")
-    private Fragment fragment;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tweetId")
+    private Set<TweetFragment> tweetFragments = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "tweetId")

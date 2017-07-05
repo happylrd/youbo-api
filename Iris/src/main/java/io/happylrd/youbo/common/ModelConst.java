@@ -31,8 +31,9 @@ public class ModelConst {
     }
 
     public interface FragmentType {
-        int IMAGE = 1;
-        int AUDIO = 2;
-        int VIDEO = 3;
+        int TEXT = 1;
+        int IMAGE = 2;
+        int AUDIO = 3;
+        int VIDEO = 4;
     }
 }

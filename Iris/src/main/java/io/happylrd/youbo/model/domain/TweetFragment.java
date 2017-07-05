@@ -9,8 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Fragment")
-public class Fragment {
+@Table(name = "TweetFragment")
+public class TweetFragment {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -19,7 +19,7 @@ public class Fragment {
     private String id;
 
     @Column(nullable = false)
-    private int type = ModelConst.FragmentType.IMAGE;
+    private int type = ModelConst.FragmentType.TEXT;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
