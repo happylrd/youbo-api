@@ -22,8 +22,6 @@ public class UserDTO {
 
     private String description;
 
-    private int role;
-
     public String getUsername() {
         return username;
     }
@@ -94,13 +92,5 @@ public class UserDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 }

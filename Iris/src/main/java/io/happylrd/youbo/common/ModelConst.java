@@ -13,6 +13,11 @@ public class ModelConst {
         int ADMIN = 1;
     }
 
+    public interface UserState {
+        int DISABLED = 0;
+        int ENABLED = 1;
+    }
+
     /**
      * NORMAL for 普通成员
      * ADMIN for 管理员

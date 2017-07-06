@@ -58,7 +58,7 @@ public class User {
     private String description;
 
     @Column(nullable = false)
-    private int role = ModelConst.Role.NORMAL;
+    private int enabled = ModelConst.UserState.ENABLED;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -95,6 +95,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private Set<Favorite> favorites = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -184,12 +189,12 @@ public class User {
         this.description = description;
     }
 
-    public int getRole() {
-        return role;
+    public int getEnabled() {
+        return enabled;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     public LocalDateTime getCreateAt() {
@@ -262,5 +267,13 @@ public class User {
 
     public void setFavorites(Set<Favorite> favorites) {
         this.favorites = favorites;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

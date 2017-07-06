@@ -10,4 +10,6 @@ public interface UserService {
     ServerResponse<UserDTO> register(RegisterVO registerVO);
 
     ServerResponse<UserDTO> login(LoginVO loginVO);
+
+    ServerResponse<UserDTO> getInfo(Long userId);
 }

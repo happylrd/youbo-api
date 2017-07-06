@@ -16,7 +16,6 @@ public class AssemblerUtil {
         userDTO.setGender(user.getGender());
         userDTO.setBirthday(user.getBirthday());
         userDTO.setDescription(user.getDescription());
-        userDTO.setRole(user.getRole());
         return userDTO;
     }
 }
