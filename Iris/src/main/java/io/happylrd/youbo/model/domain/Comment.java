@@ -1,46 +1,35 @@
 package io.happylrd.youbo.model.domain;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Comment")
 public class Comment {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(updatable = false, nullable = false)
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private String content;
 
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userId")
-    private User user;
+    @Column
+    private Long userId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "tweetId")
-    private Tweet tweet;
+    @Column
+    private Long tweetId;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,19 +57,19 @@ public class Comment {
         this.updateAt = updateAt;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Tweet getTweet() {
-        return tweet;
+    public Long getTweetId() {
+        return tweetId;
     }
 
-    public void setTweet(Tweet tweet) {
-        this.tweet = tweet;
+    public void setTweetId(Long tweetId) {
+        this.tweetId = tweetId;
     }
 }

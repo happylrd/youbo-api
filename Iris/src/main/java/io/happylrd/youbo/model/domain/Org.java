@@ -1,21 +1,16 @@
 package io.happylrd.youbo.model.domain;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "Group")
-public class Group {
+public class Org {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(updatable = false, nullable = false)
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -26,27 +21,24 @@ public class Group {
     @Column(nullable = false)
     private String picture;
 
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 
-    /**
-     * eager load
-     * load owner when loading group
-     */
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ownerId")
-    private User owner;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "groupId")
+    private Set<OrgMember> orgMembers = new HashSet<>();
 
-    public String getId() {
+    @Column
+    private Long ownerId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,11 +82,19 @@ public class Group {
         this.updateAt = updateAt;
     }
 
-    public User getOwner() {
-        return owner;
+    public Set<OrgMember> getOrgMembers() {
+        return orgMembers;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOrgMembers(Set<OrgMember> orgMembers) {
+        this.orgMembers = orgMembers;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

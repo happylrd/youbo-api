@@ -2,26 +2,20 @@ package io.happylrd.youbo.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.happylrd.youbo.common.ModelConst;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "User")
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(updatable = false, nullable = false)
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @Column(unique = true, nullable = false, length = 128)
     private String username;
@@ -66,44 +60,45 @@ public class User {
     @Column(nullable = false)
     private int role = ModelConst.Role.NORMAL;
 
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 
-    /**
-     * lazy load
-     * don't query the set when loading user
-     * just query number and don't load the set when invoke .size() method
-     */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "originId")
-    @LazyCollection(LazyCollectionOption.EXTRA)
     private Set<UserFollow> following = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "targetId")
-    @LazyCollection(LazyCollectionOption.EXTRA)
     private Set<UserFollow> followers = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ownerId")
-    @LazyCollection(LazyCollectionOption.EXTRA)
-    private Set<Group> groups = new HashSet<>();
+    private Set<Org> orgs = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
-    @LazyCollection(LazyCollectionOption.EXTRA)
+    private Set<Tweet> tweets = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private Set<Collection> collections = new HashSet<>();
 
-    public String getId() {
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private Set<Favorite> favorites = new HashSet<>();
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -227,12 +222,28 @@ public class User {
         this.followers = followers;
     }
 
-    public Set<Group> getGroups() {
-        return groups;
+    public Set<Org> getOrgs() {
+        return orgs;
     }
 
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
+    public void setOrgs(Set<Org> orgs) {
+        this.orgs = orgs;
+    }
+
+    public Set<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(Set<Tweet> tweets) {
+        this.tweets = tweets;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Set<Collection> getCollections() {
@@ -241,5 +252,13 @@ public class User {
 
     public void setCollections(Set<Collection> collections) {
         this.collections = collections;
+    }
+
+    public Set<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Favorite> favorites) {
+        this.favorites = favorites;
     }
 }

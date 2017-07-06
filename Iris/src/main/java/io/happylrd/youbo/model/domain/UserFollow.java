@@ -1,60 +1,33 @@
 package io.happylrd.youbo.model.domain;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "UserFollow")
 public class UserFollow {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(updatable = false, nullable = false)
-    private String id;
+    @GeneratedValue
+    private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "originId")
-    private User origin;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "targetId")
-    private User target;
-
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 
-    public String getId() {
+    @Column
+    private Long originId;
+
+    @Column
+    private Long targetId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(User origin) {
-        this.origin = origin;
-    }
-
-    public User getTarget() {
-        return target;
-    }
-
-    public void setTarget(User target) {
-        this.target = target;
     }
 
     public LocalDateTime getCreateAt() {
@@ -71,5 +44,21 @@ public class UserFollow {
 
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public Long getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(Long originId) {
+        this.originId = originId;
+    }
+
+    public Long getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
     }
 }
