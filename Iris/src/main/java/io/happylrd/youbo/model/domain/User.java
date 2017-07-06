@@ -2,6 +2,8 @@ package io.happylrd.youbo.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.happylrd.youbo.common.ModelConst;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -60,9 +62,11 @@ public class User {
     @Column(nullable = false)
     private int role = ModelConst.Role.NORMAL;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
+    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 

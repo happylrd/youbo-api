@@ -1,6 +1,8 @@
 package io.happylrd.youbo.model.domain;
 
 import io.happylrd.youbo.common.ModelConst;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,9 +17,11 @@ public class OrgMember {
     @Column(nullable = false)
     private int role = ModelConst.GroupMemberRole.NORMAL;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
 
+    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateAt = LocalDateTime.now();
 
