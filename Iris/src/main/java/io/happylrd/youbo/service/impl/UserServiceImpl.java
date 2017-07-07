@@ -2,6 +2,7 @@ package io.happylrd.youbo.service.impl;
 
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
+import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Role;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.domain.User;
@@ -9,6 +10,7 @@ import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
+import io.happylrd.youbo.repository.CommentRepository;
 import io.happylrd.youbo.repository.RoleRepository;
 import io.happylrd.youbo.repository.TweetRepository;
 import io.happylrd.youbo.repository.UserRepository;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TweetRepository tweetRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -99,5 +104,21 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<List<Tweet>> listMyTweet(Long userId) {
         return ServerResponse.createBySuccess(
                 tweetRepository.findByUserIdOrderByCreateAtDesc(userId));
+    }
+
+    @Override
+    public ServerResponse<Comment> publishComment(Long userId, Long tweetId, String content) {
+        Comment comment = new Comment();
+        comment.setUserId(userId);
+        comment.setTweetId(tweetId);
+        comment.setContent(content);
+        commentRepository.save(comment);
+        return ServerResponse.createBySuccessMessage("发表评论成功");
+    }
+
+    @Override
+    public ServerResponse<List<Comment>> listMyComment(Long userId) {
+        return ServerResponse.createBySuccess(
+                commentRepository.findByUserId(userId));
     }
 }

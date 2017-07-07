@@ -1,6 +1,7 @@
 package io.happylrd.youbo.controller;
 
 import io.happylrd.youbo.common.ServerResponse;
+import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
@@ -35,12 +36,26 @@ public class UserController {
     }
 
     @PostMapping("/{id}/tweets")
-    private ServerResponse<Tweet> publishTweet(@PathVariable("id") Long id, @RequestBody List<TweetFragmentDTO> fragmentDTOs) {
+    private ServerResponse<Tweet> publishTweet(@PathVariable("id") Long id,
+                                               @RequestBody List<TweetFragmentDTO> fragmentDTOs) {
         return userService.publishTweet(id, fragmentDTOs);
     }
 
     @GetMapping("/{id}/tweets")
     private ServerResponse<List<Tweet>> listMyTweet(@PathVariable("id") Long id) {
         return userService.listMyTweet(id);
+    }
+
+    // TODO: content style of sending and receiving will be improved later
+    @PostMapping("/{id}/tweets/{tweetId}/comments")
+    private ServerResponse<Comment> publishComment(@PathVariable("id") Long id,
+                                                   @PathVariable("tweetId") Long tweetId,
+                                                   @RequestParam("content") String content) {
+        return userService.publishComment(id, tweetId, content);
+    }
+
+    @GetMapping("/{id}/comments")
+    private ServerResponse<List<Comment>> listMyComment(@PathVariable("id") Long id) {
+        return userService.listMyComment(id);
     }
 }
