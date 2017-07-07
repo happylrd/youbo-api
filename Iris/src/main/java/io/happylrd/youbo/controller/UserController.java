@@ -9,6 +9,7 @@ import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
+import io.happylrd.youbo.model.vo.UserInfoVO;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,12 @@ public class UserController {
     @GetMapping(value = "/{id}")
     private ServerResponse<UserDTO> getInfo(@PathVariable("id") Long id) {
         return userService.getInfo(id);
+    }
+
+    @PutMapping("/{id}")
+    private ServerResponse<UserInfoVO> updateInfo(@PathVariable("id") Long id,
+                                                  @RequestBody UserInfoVO userInfoVO) {
+        return userService.updateInfo(id, userInfoVO);
     }
 
     @PostMapping("/{id}/tweets")

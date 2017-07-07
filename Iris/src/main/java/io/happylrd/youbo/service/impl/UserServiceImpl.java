@@ -7,6 +7,7 @@ import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
+import io.happylrd.youbo.model.vo.UserInfoVO;
 import io.happylrd.youbo.repository.*;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse<UserDTO> getInfo(Long userId) {
         User user = userRepository.findOne(userId);
-
         if (user == null) {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
@@ -91,6 +91,25 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = AssemblerUtil.assembleIntoUserDTO(user);
 
         return ServerResponse.createBySuccess(userDTO);
+    }
+
+    @Override
+    public ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO) {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        user.setNickname(userInfoVO.getNickname());
+        user.setRealname(userInfoVO.getRealname());
+//        user.setAvatar(userInfoVO.getAvatar());
+        user.setGender(userInfoVO.getGender());
+        user.setBirthday(userInfoVO.getBirthday());
+        user.setDescription(userInfoVO.getDescription());
+
+        userRepository.save(user);
+
+        return ServerResponse.createBySuccessMessage("更新用户信息成功");
     }
 
     @Override
