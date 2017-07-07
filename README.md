@@ -12,6 +12,8 @@ A api server for youbo.
 - spring mvc
 - spring
 - spring-data-jpa
+- spring-security
+- [jjwt](https://github.com/jwtk/jjwt)
 - springfox
 - swagger2
 - gradle

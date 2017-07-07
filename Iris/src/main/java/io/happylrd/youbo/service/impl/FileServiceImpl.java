@@ -28,13 +28,13 @@ public class FileServiceImpl implements FileService {
         File targetFile = new File(path, uploadFileName);
 
         try {
+            // upload to Tomcat
             file.transferTo(targetFile);
-            // 文件已经成功上传到Tomcat
 
+            // upload to FTP
             FTPUtil.uploadFile(Lists.newArrayList(targetFile));
-            // 文件已经上传到FTP服务器上
 
-            // 删除Tomcat的upload目录下面的文件
+            // delete file in upload dir of Tomcat
             targetFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
