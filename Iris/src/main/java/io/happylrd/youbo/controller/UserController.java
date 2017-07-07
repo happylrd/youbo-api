@@ -14,6 +14,7 @@ import io.happylrd.youbo.model.vo.UserInfoVO;
 import io.happylrd.youbo.service.FileService;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private FileService fileService;
+
+    @Value("${ftp.server.http-prefix}")
+    private String imageServerPrefix;
 
     @PostMapping(value = "/register")
     private ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -118,7 +122,7 @@ public class UserController {
                 .getRealPath("upload");
         String targetFileName = fileService.upload(file, path);
 
-        String url = "http://image.youbo.io/" + targetFileName;
+        String url = imageServerPrefix + targetFileName;
 
         return userService.updateAvatar(id, url);
     }
