@@ -3,11 +3,14 @@ package io.happylrd.youbo.service.impl;
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Role;
+import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
 import io.happylrd.youbo.repository.RoleRepository;
+import io.happylrd.youbo.repository.TweetRepository;
 import io.happylrd.youbo.repository.UserRepository;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private TweetRepository tweetRepository;
 
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -79,5 +86,18 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = AssemblerUtil.assembleIntoUserDTO(user);
 
         return ServerResponse.createBySuccess(userDTO);
+    }
+
+    @Override
+    public ServerResponse<Tweet> publishTweet(Long userId, List<TweetFragmentDTO> fragmentDTOs) {
+        Tweet tweet = AssemblerUtil.assembleIntoTweet(fragmentDTOs, userId);
+        tweetRepository.save(tweet);
+        return ServerResponse.createBySuccessMessage("发表Tweet成功");
+    }
+
+    @Override
+    public ServerResponse<List<Tweet>> listMyTweet(Long userId) {
+        return ServerResponse.createBySuccess(
+                tweetRepository.findByUserIdOrderByCreateAtDesc(userId));
     }
 }
