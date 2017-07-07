@@ -13,6 +13,9 @@ public class Collection {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createAt = LocalDateTime.now();
@@ -33,6 +36,14 @@ public class Collection {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public LocalDateTime getCreateAt() {

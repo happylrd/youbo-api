@@ -72,6 +72,12 @@ public class UserController {
         return userService.listMyCollection(id);
     }
 
+    @PutMapping("/{id}/collections/{collectionId}")
+    private ServerResponse<Collection> cancelCollection(@PathVariable("id") Long id,
+                                                        @PathVariable("collectionId") Long collectionId) {
+        return userService.cancelCollection(collectionId);
+    }
+
     @PostMapping("/{id}/tweets/{tweetId}/favorites")
     private ServerResponse<Favorite> doFavorite(@PathVariable("id") Long id,
                                                 @PathVariable("tweetId") Long tweetId) {
@@ -81,5 +87,11 @@ public class UserController {
     @GetMapping("/{id}/favorites")
     private ServerResponse<List<Favorite>> listMyFavorite(@PathVariable("id") Long id) {
         return userService.listMyFavorite(id);
+    }
+
+    @PutMapping("/{id}/favorites/{favoriteId}")
+    private ServerResponse<Favorite> cancelFavorite(@PathVariable("id") Long id,
+                                                    @PathVariable("favoriteId") Long favoriteId) {
+        return userService.cancelFavorite(favoriteId);
     }
 }

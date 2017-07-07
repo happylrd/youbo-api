@@ -32,7 +32,11 @@ public interface UserService {
 
     ServerResponse<List<Collection>> listMyCollection(Long userId);
 
+    ServerResponse<Collection> cancelCollection(Long collectionId);
+
     ServerResponse<Favorite> doFavorite(Long userId, Long tweetId);
 
     ServerResponse<List<Favorite>> listMyFavorite(Long userId);
+
+    ServerResponse<Favorite> cancelFavorite(Long favoriteId);
 }

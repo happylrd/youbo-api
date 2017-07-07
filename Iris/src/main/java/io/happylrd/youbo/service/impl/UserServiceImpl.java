@@ -124,31 +124,67 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerResponse<Collection> collectTweet(Long userId, Long tweetId) {
+        long resultCount = collectionRepository
+                .countByUserIdAndTweetIdAndEnabledTrue(userId, tweetId);
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("收藏已存在");
+        }
+
         Collection collection = new Collection();
         collection.setUserId(userId);
         collection.setTweetId(tweetId);
-        collectionRepository.save(collection);
-        return ServerResponse.createBySuccessMessage("添加收藏成功");
+        return ServerResponse.createBySuccess("添加收藏成功",
+                collectionRepository.save(collection));
     }
 
     @Override
     public ServerResponse<List<Collection>> listMyCollection(Long userId) {
         return ServerResponse.createBySuccess(
-                collectionRepository.findByUserId(userId));
+                collectionRepository.findByUserIdAndEnabledTrue(userId));
+    }
+
+    @Override
+    public ServerResponse<Collection> cancelCollection(Long collectionId) {
+        Collection collection = collectionRepository.findByIdAndEnabledTrue(collectionId);
+        if (collection == null) {
+            return ServerResponse.createByErrorMessage("收藏不存在");
+        }
+
+        collection.setEnabled(false);
+        return ServerResponse.createBySuccess("取消收藏成功",
+                collectionRepository.save(collection));
     }
 
     @Override
     public ServerResponse<Favorite> doFavorite(Long userId, Long tweetId) {
+        long resultCount = favoriteRepository
+                .countByUserIdAndTweetIdAndEnabledTrue(userId, tweetId);
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("喜欢已存在");
+        }
+
         Favorite favorite = new Favorite();
         favorite.setUserId(userId);
         favorite.setTweetId(tweetId);
-        favoriteRepository.save(favorite);
-        return ServerResponse.createBySuccessMessage("喜欢Tweet成功");
+        return ServerResponse.createBySuccess("添加喜欢成功",
+                favoriteRepository.save(favorite));
     }
 
     @Override
     public ServerResponse<List<Favorite>> listMyFavorite(Long userId) {
         return ServerResponse.createBySuccess(
-                favoriteRepository.findByUserId(userId));
+                favoriteRepository.findByUserIdAndEnabledTrue(userId));
+    }
+
+    @Override
+    public ServerResponse<Favorite> cancelFavorite(Long favoriteId) {
+        Favorite favorite = favoriteRepository.findByIdAndEnabledTrue(favoriteId);
+        if (favorite == null) {
+            return ServerResponse.createByErrorMessage("喜欢不存在");
+        }
+
+        favorite.setEnabled(false);
+        return ServerResponse.createBySuccess("取消喜欢成功",
+                favoriteRepository.save(favorite));
     }
 }

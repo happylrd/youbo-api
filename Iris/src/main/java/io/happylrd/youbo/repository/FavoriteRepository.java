@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
-    List<Favorite> findByUserId(Long userId);
+    Long countByUserIdAndTweetIdAndEnabledTrue(Long userId, Long tweetId);
+
+    List<Favorite> findByUserIdAndEnabledTrue(Long userId);
+
+    Favorite findByIdAndEnabledTrue(Long id);
 }

@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
-    List<Collection> findByUserId(Long userId);
+    Long countByUserIdAndTweetIdAndEnabledTrue(Long userId, Long tweetId);
+
+    List<Collection> findByUserIdAndEnabledTrue(Long userId);
+
+    Collection findByIdAndEnabledTrue(Long id);
 }
