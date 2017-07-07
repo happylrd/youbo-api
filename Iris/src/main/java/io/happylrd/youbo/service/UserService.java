@@ -23,6 +23,8 @@ public interface UserService {
 
     ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO);
 
+    ServerResponse updateAvatar(Long userId, String avatarUrl);
+
     ServerResponse<Tweet> publishTweet(Long userId, List<TweetFragmentDTO> fragmentDTOs);
 
     ServerResponse<List<Tweet>> listMyTweet(Long userId);

@@ -1,5 +1,6 @@
 package io.happylrd.youbo.controller;
 
+import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.domain.Comment;
@@ -10,11 +11,15 @@ import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
 import io.happylrd.youbo.model.vo.UserInfoVO;
+import io.happylrd.youbo.service.FileService;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -22,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileService fileService;
 
     @PostMapping(value = "/register")
     private ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -100,5 +108,38 @@ public class UserController {
     private ServerResponse<Favorite> cancelFavorite(@PathVariable("id") Long id,
                                                     @PathVariable("favoriteId") Long favoriteId) {
         return userService.cancelFavorite(favoriteId);
+    }
+
+    @PutMapping("/{id}/avatar")
+    private ServerResponse updateAvatar(@PathVariable("id") Long id,
+                                        @RequestParam(value = "upload_avatar", required = false) MultipartFile file,
+                                        HttpServletRequest request) {
+        String path = request.getSession().getServletContext()
+                .getRealPath("upload");
+        String targetFileName = fileService.upload(file, path);
+
+        String url = "http://image.youbo.io/" + targetFileName;
+
+        return userService.updateAvatar(id, url);
+    }
+
+    /**
+     * for all file type to upload, will make a extra function for implementing later
+     * ignore the route now
+     */
+    @PostMapping(value = "/upload")
+    public ServerResponse upload(@RequestParam(value = "upload_file", required = false) MultipartFile file,
+                                 HttpServletRequest request) {
+        String path = request.getSession().getServletContext()
+                .getRealPath("upload");
+        String targetFileName = fileService.upload(file, path);
+
+        String url = "http://assets.youbo.io/" + targetFileName;
+        Map<String, String> fileMap = Maps.newHashMap();
+        fileMap.put("fileName", targetFileName);
+        fileMap.put("url", url);
+
+        return ServerResponse.createBySuccess("上传文件成功",
+                fileMap);
     }
 }

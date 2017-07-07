@@ -1,5 +1,6 @@
 package io.happylrd.youbo.service.impl;
 
+import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.*;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -110,6 +112,21 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return ServerResponse.createBySuccessMessage("更新用户信息成功");
+    }
+
+    @Override
+    public ServerResponse updateAvatar(Long userId, String avatarUrl) {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        user.setAvatar(avatarUrl);
+        userRepository.save(user);
+
+        Map<String, String> avatarMap = Maps.newHashMap();
+        avatarMap.put("avatar", avatarUrl);
+        return ServerResponse.createBySuccess("更新用户头像成功", avatarMap);
     }
 
     @Override
