@@ -1,4 +1,4 @@
-package io.happylrd.youbo.config.filter;
+package io.happylrd.youbo.config.cors;
 
 import org.springframework.stereotype.Component;
 
