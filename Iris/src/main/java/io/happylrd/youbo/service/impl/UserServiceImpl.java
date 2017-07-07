@@ -2,18 +2,12 @@ package io.happylrd.youbo.service.impl;
 
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
-import io.happylrd.youbo.model.domain.Comment;
-import io.happylrd.youbo.model.domain.Role;
-import io.happylrd.youbo.model.domain.Tweet;
-import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
-import io.happylrd.youbo.repository.CommentRepository;
-import io.happylrd.youbo.repository.RoleRepository;
-import io.happylrd.youbo.repository.TweetRepository;
-import io.happylrd.youbo.repository.UserRepository;
+import io.happylrd.youbo.repository.*;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private CollectionRepository collectionRepository;
 
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -120,5 +117,20 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<List<Comment>> listMyComment(Long userId) {
         return ServerResponse.createBySuccess(
                 commentRepository.findByUserId(userId));
+    }
+
+    @Override
+    public ServerResponse<Collection> collectTweet(Long userId, Long tweetId) {
+        Collection collection = new Collection();
+        collection.setUserId(userId);
+        collection.setTweetId(tweetId);
+        collectionRepository.save(collection);
+        return ServerResponse.createBySuccessMessage("添加收藏成功");
+    }
+
+    @Override
+    public ServerResponse<List<Collection>> listMyCollection(Long userId) {
+        return ServerResponse.createBySuccess(
+                collectionRepository.findByUserId(userId));
     }
 }

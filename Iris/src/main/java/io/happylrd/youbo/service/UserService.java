@@ -1,6 +1,7 @@
 package io.happylrd.youbo.service;
 
 import io.happylrd.youbo.common.ServerResponse;
+import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
@@ -25,4 +26,8 @@ public interface UserService {
     ServerResponse<Comment> publishComment(Long userId, Long tweetId, String content);
 
     ServerResponse<List<Comment>> listMyComment(Long userId);
+
+    ServerResponse<Collection> collectTweet(Long userId, Long tweetId);
+
+    ServerResponse<List<Collection>> listMyCollection(Long userId);
 }

@@ -1,6 +1,7 @@
 package io.happylrd.youbo.controller;
 
 import io.happylrd.youbo.common.ServerResponse;
+import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
@@ -57,5 +58,16 @@ public class UserController {
     @GetMapping("/{id}/comments")
     private ServerResponse<List<Comment>> listMyComment(@PathVariable("id") Long id) {
         return userService.listMyComment(id);
+    }
+
+    @PostMapping("/{id}/tweets/{tweetId}/collections")
+    private ServerResponse<Collection> collectTweet(@PathVariable("id") Long id,
+                                                    @PathVariable("tweetId") Long tweetId) {
+        return userService.collectTweet(id, tweetId);
+    }
+
+    @GetMapping("/{id}/collections")
+    private ServerResponse<List<Collection>> listMyCollection(@PathVariable("id") Long id){
+        return userService.listMyCollection(id);
     }
 }
