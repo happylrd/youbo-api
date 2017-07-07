@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CollectionRepository collectionRepository;
 
+    @Autowired
+    private FavoriteRepository favoriteRepository;
+
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
         long resultCount = userRepository.countByUsername(registerVO.getUsername());
@@ -132,5 +135,20 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<List<Collection>> listMyCollection(Long userId) {
         return ServerResponse.createBySuccess(
                 collectionRepository.findByUserId(userId));
+    }
+
+    @Override
+    public ServerResponse<Favorite> doFavorite(Long userId, Long tweetId) {
+        Favorite favorite = new Favorite();
+        favorite.setUserId(userId);
+        favorite.setTweetId(tweetId);
+        favoriteRepository.save(favorite);
+        return ServerResponse.createBySuccessMessage("喜欢Tweet成功");
+    }
+
+    @Override
+    public ServerResponse<List<Favorite>> listMyFavorite(Long userId) {
+        return ServerResponse.createBySuccess(
+                favoriteRepository.findByUserId(userId));
     }
 }

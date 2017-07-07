@@ -3,6 +3,7 @@ package io.happylrd.youbo.controller;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.domain.Comment;
+import io.happylrd.youbo.model.domain.Favorite;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
@@ -67,7 +68,18 @@ public class UserController {
     }
 
     @GetMapping("/{id}/collections")
-    private ServerResponse<List<Collection>> listMyCollection(@PathVariable("id") Long id){
+    private ServerResponse<List<Collection>> listMyCollection(@PathVariable("id") Long id) {
         return userService.listMyCollection(id);
+    }
+
+    @PostMapping("/{id}/tweets/{tweetId}/favorites")
+    private ServerResponse<Favorite> doFavorite(@PathVariable("id") Long id,
+                                                @PathVariable("tweetId") Long tweetId) {
+        return userService.doFavorite(id, tweetId);
+    }
+
+    @GetMapping("/{id}/favorites")
+    private ServerResponse<List<Favorite>> listMyFavorite(@PathVariable("id") Long id) {
+        return userService.listMyFavorite(id);
     }
 }

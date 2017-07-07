@@ -3,6 +3,7 @@ package io.happylrd.youbo.service;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.domain.Comment;
+import io.happylrd.youbo.model.domain.Favorite;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
@@ -30,4 +31,8 @@ public interface UserService {
     ServerResponse<Collection> collectTweet(Long userId, Long tweetId);
 
     ServerResponse<List<Collection>> listMyCollection(Long userId);
+
+    ServerResponse<Favorite> doFavorite(Long userId, Long tweetId);
+
+    ServerResponse<List<Favorite>> listMyFavorite(Long userId);
 }
