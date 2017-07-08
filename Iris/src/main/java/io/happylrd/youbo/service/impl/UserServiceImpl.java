@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.*;
+import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
@@ -39,6 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FavoriteRepository favoriteRepository;
+
+    @Autowired
+    private OrgRepository orgRepository;
 
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
@@ -222,5 +226,25 @@ public class UserServiceImpl implements UserService {
         favorite.setEnabled(false);
         return ServerResponse.createBySuccess("取消喜欢成功",
                 favoriteRepository.save(favorite));
+    }
+
+    /**
+     * orgDTO need not null check, will be added later
+     */
+    @Override
+    public ServerResponse<Org> createOrg(Long userId, OrgDTO orgDTO) {
+        long resultCount = orgRepository.countByName(orgDTO.getName());
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("组织名已存在");
+        }
+        Org org = AssemblerUtil.assembleIntoOrg(orgDTO, userId);
+        org = orgRepository.save(org);
+        return ServerResponse.createBySuccess("创建组织成功", org);
+    }
+
+    @Override
+    public ServerResponse<List<Org>> listMyOrg(Long userId) {
+        return ServerResponse.createBySuccess(
+                orgRepository.findAll());
     }
 }

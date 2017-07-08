@@ -2,10 +2,8 @@ package io.happylrd.youbo.controller;
 
 import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.ServerResponse;
-import io.happylrd.youbo.model.domain.Collection;
-import io.happylrd.youbo.model.domain.Comment;
-import io.happylrd.youbo.model.domain.Favorite;
-import io.happylrd.youbo.model.domain.Tweet;
+import io.happylrd.youbo.model.domain.*;
+import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
@@ -112,6 +110,17 @@ public class UserController {
     private ServerResponse<Favorite> cancelFavorite(@PathVariable("id") Long id,
                                                     @PathVariable("favoriteId") Long favoriteId) {
         return userService.cancelFavorite(favoriteId);
+    }
+
+    @PostMapping("/{id}/orgs")
+    private ServerResponse<Org> createOrg(@PathVariable("id") Long id,
+                                          @RequestBody OrgDTO orgDTO) {
+        return userService.createOrg(id, orgDTO);
+    }
+
+    @GetMapping("/{id}/orgs")
+    private ServerResponse<List<Org>> listMyOrg(@PathVariable("id") Long id) {
+        return userService.listMyOrg(id);
     }
 
     @PutMapping("/{id}/avatar")

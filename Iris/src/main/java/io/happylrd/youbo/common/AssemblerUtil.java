@@ -1,8 +1,10 @@
 package io.happylrd.youbo.common;
 
+import io.happylrd.youbo.model.domain.Org;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.domain.TweetFragment;
 import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 
@@ -43,5 +45,15 @@ public class AssemblerUtil {
         tweet.setTweetFragments(fragments);
         tweet.setUserId(userId);
         return tweet;
+    }
+
+    public static Org assembleIntoOrg(OrgDTO orgDTO, Long creatorId) {
+        Org org = new Org();
+        org.setName(orgDTO.getName());
+        org.setDescription(orgDTO.getDescription());
+        org.setPicture(orgDTO.getPicture());
+
+        org.setOwnerId(creatorId);
+        return org;
     }
 }
