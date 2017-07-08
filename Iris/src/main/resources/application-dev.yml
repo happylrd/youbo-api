@@ -1,2 +1,6 @@
 server:
   port: 8080
+management:
+  context-path: /mgmt
+  security:
+    enabled: false
