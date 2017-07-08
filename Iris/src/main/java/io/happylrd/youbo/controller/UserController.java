@@ -123,6 +123,16 @@ public class UserController {
         return userService.listMyOrg(id);
     }
 
+    /**
+     * need to be improved later
+     */
+    @PostMapping("/{ownerId}/orgs/{orgId}/members/{userId}")
+    private ServerResponse<OrgMember> addMemberToOrg(@PathVariable("ownerId") Long ownerId,
+                                                     @PathVariable("orgId") Long orgId,
+                                                     @PathVariable("userId") Long userId) {
+        return userService.addMemberToOrg(ownerId, orgId, userId);
+    }
+
     @PutMapping("/{id}/avatar")
     private ServerResponse updateAvatar(@PathVariable("id") Long id,
                                         @RequestParam(value = "upload_avatar", required = false) MultipartFile file,

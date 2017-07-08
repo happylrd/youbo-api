@@ -44,6 +44,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private OrgRepository orgRepository;
 
+    @Autowired
+    private OrgMemberRepository orgMemberRepository;
+
     @Override
     public ServerResponse<UserDTO> register(RegisterVO registerVO) {
         long resultCount = userRepository.countByUsername(registerVO.getUsername());
@@ -245,6 +248,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse<List<Org>> listMyOrg(Long userId) {
         return ServerResponse.createBySuccess(
-                orgRepository.findAll());
+                orgRepository.findByOwnerId(userId));
+    }
+
+    @Override
+    public ServerResponse<OrgMember> addMemberToOrg(Long ownerId, Long orgId, Long userId) {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("待添加到组织的用户不存在");
+        }
+        Org org = orgRepository.findOne(orgId);
+        if (org == null) {
+            return ServerResponse.createByErrorMessage("组织不存在");
+        }
+
+        // need to judge org' owner
+
+        OrgMember orgMember = new OrgMember();
+        orgMember.setUser(user);
+        orgMember.setGroupId(orgId);
+        orgMember = orgMemberRepository.save(orgMember);
+        return ServerResponse.createBySuccess("将另一个用户添加到组织成功", orgMember);
     }
 }

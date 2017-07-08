@@ -2,6 +2,7 @@ package io.happylrd.youbo.controller;
 
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Org;
+import io.happylrd.youbo.model.domain.OrgMember;
 import io.happylrd.youbo.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,10 @@ public class OrgController {
     @GetMapping("/{id}")
     private ServerResponse<Org> get(@PathVariable("id") Long id) {
         return orgService.getOrg(id);
+    }
+
+    @GetMapping("/{id}/members")
+    private ServerResponse<List<OrgMember>> listMember(@PathVariable("id") Long id) {
+        return orgService.listMember(id);
     }
 }

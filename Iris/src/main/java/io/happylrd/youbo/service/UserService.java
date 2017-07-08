@@ -46,4 +46,6 @@ public interface UserService {
     ServerResponse<Org> createOrg(Long userId, OrgDTO orgDTO);
 
     ServerResponse<List<Org>> listMyOrg(Long userId);
+
+    ServerResponse<OrgMember> addMemberToOrg(Long ownerId, Long orgId, Long userId);
 }
