@@ -16,6 +16,7 @@ A api server for youbo.
 - [jjwt](https://github.com/jwtk/jjwt)
 - springfox
 - swagger2
+- spring-boot-actuator
 - gradle
 - [guava](https://github.com/google/guava)
 - [commons-net](http://commons.apache.org/proper/commons-net/)
