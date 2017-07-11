@@ -1,9 +1,6 @@
 package io.happylrd.youbo.common;
 
-import io.happylrd.youbo.model.domain.Org;
-import io.happylrd.youbo.model.domain.Tweet;
-import io.happylrd.youbo.model.domain.TweetFragment;
-import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
@@ -39,8 +36,8 @@ public class AssemblerUtil {
                 .stream()
                 .map(tweetFragment -> AssemblerUtil.assembleIntoTweetFragmentDTO(tweetFragment))
                 .collect(Collectors.toList());
-
         tweetDTO.setFragmentDTOs(tweetFragmentDTOs);
+
         tweetDTO.setCommentSize(tweet.getComments().size());
         tweetDTO.setCollectionSize(tweet.getCollections().size());
         tweetDTO.setFavoriteSize(tweet.getFavorites().size());
@@ -50,12 +47,14 @@ public class AssemblerUtil {
         return tweetDTO;
     }
 
-    private static TweetFragmentDTO assembleIntoTweetFragmentDTO(TweetFragment tweetFragment) {
+    public static TweetFragmentDTO assembleIntoTweetFragmentDTO(TweetFragment tweetFragment) {
         TweetFragmentDTO tweetFragmentDTO = new TweetFragmentDTO();
         tweetFragmentDTO.setType(tweetFragment.getType());
         tweetFragmentDTO.setContent(tweetFragment.getContent());
         return tweetFragmentDTO;
     }
+
+
 
     public static Tweet assembleIntoTweet(List<TweetFragmentDTO> fragmentDTOs, Long userId) {
         Tweet tweet = new Tweet();

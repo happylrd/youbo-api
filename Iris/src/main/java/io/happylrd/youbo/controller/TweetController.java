@@ -4,6 +4,7 @@ import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.dto.TweetDTO;
+import io.happylrd.youbo.model.vo.TweetDetailVO;
 import io.happylrd.youbo.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class TweetController {
     }
 
     @GetMapping("/{id}")
-    private ServerResponse<Tweet> get(@PathVariable("id") Long id) {
+    private ServerResponse<TweetDetailVO> get(@PathVariable("id") Long id) {
         return tweetService.getTweet(id);
     }
 

@@ -6,6 +6,9 @@ import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
 import io.happylrd.youbo.model.domain.User;
 import io.happylrd.youbo.model.dto.TweetDTO;
+import io.happylrd.youbo.model.dto.TweetFragmentDTO;
+import io.happylrd.youbo.model.vo.CommentVO;
+import io.happylrd.youbo.model.vo.TweetDetailVO;
 import io.happylrd.youbo.repository.CommentRepository;
 import io.happylrd.youbo.repository.TweetRepository;
 import io.happylrd.youbo.repository.UserRepository;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,14 +52,55 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public ServerResponse<Tweet> getTweet(Long id) {
-        return ServerResponse.createBySuccess(
-                tweetRepository.findOne(id));
+    public ServerResponse<TweetDetailVO> getTweet(Long id) {
+        Tweet tweet = tweetRepository.findOne(id);
+        TweetDetailVO tweetDetailVO = assembleIntoTweetDetailVO(tweet);
+        return ServerResponse.createBySuccess(tweetDetailVO);
     }
 
     @Override
     public ServerResponse<List<Comment>> listComment(Long tweetId) {
         return ServerResponse.createBySuccess(
                 commentRepository.findByTweetId(tweetId));
+    }
+
+    private TweetDetailVO assembleIntoTweetDetailVO(Tweet tweet) {
+        TweetDetailVO tweetDetailVO = new TweetDetailVO();
+        tweetDetailVO.setId(tweet.getId());
+        tweetDetailVO.setCreateAt(tweet.getCreateAt());
+
+        List<TweetFragmentDTO> tweetFragmentDTOs = tweet.getTweetFragments()
+                .stream()
+                .map(tweetFragment -> AssemblerUtil.assembleIntoTweetFragmentDTO(tweetFragment))
+                .collect(Collectors.toList());
+        tweetDetailVO.setFragmentDTOs(tweetFragmentDTOs);
+
+        tweetDetailVO.setCommentSize(tweet.getComments().size());
+        tweetDetailVO.setCollectionSize(tweet.getCollections().size());
+        tweetDetailVO.setFavoriteSize(tweet.getFavorites().size());
+
+        User user = userRepository.findOne(tweet.getUserId());
+        tweetDetailVO.setNickname(user.getNickname());
+        tweetDetailVO.setAvatar(user.getAvatar());
+
+        List<CommentVO> commentVOs = tweet.getComments()
+                .stream()
+                .map(comment -> assembleIntoCommentVO(comment))
+                .collect(Collectors.toList());
+        tweetDetailVO.setCommentVOs(commentVOs);
+
+        return tweetDetailVO;
+    }
+
+    private CommentVO assembleIntoCommentVO(Comment comment) {
+        CommentVO commentVO = new CommentVO();
+        commentVO.setId(comment.getId());
+        commentVO.setContent(comment.getContent());
+        commentVO.setCreateAt(comment.getCreateAt());
+
+        User user = userRepository.findOne(comment.getUserId());
+        commentVO.setNickname(user.getNickname());
+        commentVO.setAvatar(user.getAvatar());
+        return commentVO;
     }
 }
