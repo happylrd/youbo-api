@@ -1,16 +1,21 @@
 package io.happylrd.youbo.service.impl;
 
+import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.Comment;
 import io.happylrd.youbo.model.domain.Tweet;
+import io.happylrd.youbo.model.domain.User;
+import io.happylrd.youbo.model.dto.TweetDTO;
 import io.happylrd.youbo.repository.CommentRepository;
 import io.happylrd.youbo.repository.TweetRepository;
+import io.happylrd.youbo.repository.UserRepository;
 import io.happylrd.youbo.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TweetServiceImpl implements TweetService {
@@ -21,11 +26,25 @@ public class TweetServiceImpl implements TweetService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public ServerResponse<List<Tweet>> listTweet() {
+    public ServerResponse<List<TweetDTO>> listTweet() {
         Sort sort = new Sort(Sort.Direction.DESC, "createAt");
-        return ServerResponse.createBySuccess(
-                tweetRepository.findAll(sort));
+
+        List<Tweet> tweetList = tweetRepository.findAll(sort);
+
+        List<TweetDTO> tweetDTOList = tweetList.stream()
+                .map(tweet -> {
+                    User user = userRepository.findOne(tweet.getUserId());
+                    String nickname = user.getNickname();
+                    String avatar = user.getAvatar();
+                    return AssemblerUtil.assembleIntoTweetDTO(tweet, nickname, avatar);
+                })
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(tweetDTOList);
     }
 
     @Override
