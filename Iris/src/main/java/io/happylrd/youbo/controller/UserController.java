@@ -127,6 +127,16 @@ public class UserController {
         return userService.doFollowing(id, targetId);
     }
 
+    @GetMapping("/{id}/following")
+    private ServerResponse<List<FollowVO>> listMyFollowing(@PathVariable("id") Long id) {
+        return userService.listMyFollowing(id);
+    }
+
+    @GetMapping("/{id}/followers")
+    private ServerResponse<List<FollowVO>> listMyFollower(@PathVariable("id") Long id) {
+        return userService.listMyFollower(id);
+    }
+
     @PostMapping("/{id}/orgs")
     private ServerResponse<Org> createOrg(@PathVariable("id") Long id,
                                           @RequestBody OrgDTO orgDTO) {

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.*;
+import io.happylrd.youbo.model.domain.Collection;
 import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
@@ -14,10 +15,7 @@ import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -346,6 +344,51 @@ public class UserServiceImpl implements UserService {
         userFollow = userFollowRepository.save(userFollow);
         return ServerResponse.createBySuccess("关注成功",
                 userFollow);
+    }
+
+    @Override
+    public ServerResponse<List<FollowVO>> listMyFollowing(Long userId) {
+        User currentUser = userRepository.findOne(userId);
+        Set<UserFollow> userFollows = currentUser.getFollowing();
+        List<User> users = userFollows.stream()
+                .map(userFollow -> {
+                    Long followingId = userFollow.getTargetId();
+                    return userRepository.findOne(followingId);
+                })
+                .collect(Collectors.toList());
+
+        List<FollowVO> followVOs = users.stream()
+                .map(user -> assembleIntoFollowVO(user, true))
+                .collect(Collectors.toList());
+        return ServerResponse.createBySuccess(followVOs);
+    }
+
+    private FollowVO assembleIntoFollowVO(User user, boolean isFollowed) {
+        FollowVO followVO = new FollowVO();
+        followVO.setNickname(user.getNickname());
+        followVO.setAvatar(user.getAvatar());
+        followVO.setDescription(user.getDescription());
+        followVO.setFollowed(isFollowed);
+        return followVO;
+    }
+
+    @Override
+    public ServerResponse<List<FollowVO>> listMyFollower(Long userId) {
+        User currentUser = userRepository.findOne(userId);
+        Set<UserFollow> userFollows = currentUser.getFollowers();
+        List<User> users = userFollows.stream()
+                .map(userFollow -> {
+                    Long followerId = userFollow.getOriginId();
+                    return userRepository.findOne(followerId);
+                })
+                .collect(Collectors.toList());
+
+        // TODO: simply set isFollowed as false
+        List<FollowVO> followVOs = users.stream()
+                .map(user -> assembleIntoFollowVO(user, false))
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(followVOs);
     }
 
     /**

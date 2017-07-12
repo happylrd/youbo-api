@@ -48,6 +48,10 @@ public interface UserService {
 
     ServerResponse<UserFollow> doFollowing(Long id, Long targetId);
 
+    ServerResponse<List<FollowVO>> listMyFollowing(Long userId);
+
+    ServerResponse<List<FollowVO>> listMyFollower(Long userId);
+
     ServerResponse<Org> createOrg(Long userId, OrgDTO orgDTO);
 
     ServerResponse<List<Org>> listMyOrg(Long userId);
