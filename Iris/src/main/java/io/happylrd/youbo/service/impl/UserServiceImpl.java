@@ -132,6 +132,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ServerResponse<UserInfoVO> getNormalInfo(Long id) {
+        User user = userRepository.findOne(id);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        UserInfoVO userInfoVO = assembleIntoUserInfoVO(user);
+        return ServerResponse.createBySuccess(userInfoVO);
+    }
+
+    private UserInfoVO assembleIntoUserInfoVO(User user) {
+        UserInfoVO userInfoVO = new UserInfoVO();
+        userInfoVO.setNickname(user.getNickname());
+        userInfoVO.setRealname(user.getRealname());
+        userInfoVO.setAvatar(user.getAvatar());
+        userInfoVO.setGender(user.getGender());
+        userInfoVO.setBirthday(user.getBirthday());
+        userInfoVO.setDescription(user.getDescription());
+        return userInfoVO;
+    }
+
+    @Override
     public ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO) {
         User user = userRepository.findOne(userId);
         if (user == null) {

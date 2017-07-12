@@ -52,6 +52,11 @@ public class UserController {
         return userService.getInfoById(id);
     }
 
+    @GetMapping("/{id}/info")
+    private ServerResponse<UserInfoVO> getNormalInfo(@PathVariable("id") Long id) {
+        return userService.getNormalInfo(id);
+    }
+
     @PutMapping("/{id}")
     private ServerResponse<UserInfoVO> updateInfo(@PathVariable("id") Long id,
                                                   @RequestBody UserInfoVO userInfoVO) {

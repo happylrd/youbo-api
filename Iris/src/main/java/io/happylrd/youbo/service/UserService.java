@@ -20,6 +20,8 @@ public interface UserService {
 
     ServerResponse<UserVO> getInfoById(Long id);
 
+    ServerResponse<UserInfoVO> getNormalInfo(Long id);
+
     ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO);
 
     ServerResponse updateAvatar(Long userId, String avatarUrl);
