@@ -28,7 +28,7 @@ public interface UserService {
 
     ServerResponse<Tweet> publishTweet(Long userId, List<TweetFragmentDTO> fragmentDTOs);
 
-    ServerResponse<List<Tweet>> listMyTweet(Long userId);
+    ServerResponse<List<TweetDTO>> listMyTweet(Long userId);
 
     ServerResponse<Comment> publishComment(Long userId, Long tweetId, String content);
 

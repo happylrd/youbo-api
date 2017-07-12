@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/tweets")
-    private ServerResponse<List<Tweet>> listMyTweet(@PathVariable("id") Long id) {
+    private ServerResponse<List<TweetDTO>> listMyTweet(@PathVariable("id") Long id) {
         return userService.listMyTweet(id);
     }
 
@@ -166,7 +166,7 @@ public class UserController {
                 .getRealPath("upload");
         String targetFileName = fileService.upload(file, path);
 
-        String url = "http://assets.youbo.io/" + targetFileName;
+        String url = "http://image.youbo.io/" + targetFileName;
         Map<String, String> fileMap = Maps.newHashMap();
         fileMap.put("fileName", targetFileName);
         fileMap.put("url", url);

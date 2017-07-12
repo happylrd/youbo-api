@@ -195,9 +195,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse<List<Tweet>> listMyTweet(Long userId) {
-        return ServerResponse.createBySuccess(
-                tweetRepository.findByUserIdOrderByCreateAtDesc(userId));
+    public ServerResponse<List<TweetDTO>> listMyTweet(Long userId) {
+        List<Tweet> tweets = tweetRepository.findByUserIdOrderByCreateAtDesc(userId);
+
+        List<TweetDTO> tweetDTOs = tweets.stream()
+                .map(tweet -> {
+                    User user = userRepository.findOne(tweet.getUserId());
+                    String nickname = user.getNickname();
+                    String avatar = user.getAvatar();
+                    return AssemblerUtil.assembleIntoTweetDTO(tweet, nickname, avatar);
+                })
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(tweetDTOs);
     }
 
     @Override
