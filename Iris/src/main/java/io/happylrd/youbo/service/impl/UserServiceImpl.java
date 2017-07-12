@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse<UserDTO> getInfo(Long userId) {
-        User user = userRepository.findOne(userId);
+    public ServerResponse<UserDTO> getInfo(String username) {
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             return ServerResponse.createByErrorMessage("用户不存在");
         }

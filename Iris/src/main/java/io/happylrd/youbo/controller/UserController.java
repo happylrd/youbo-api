@@ -43,9 +43,9 @@ public class UserController {
         return userService.login(loginVO);
     }
 
-    @GetMapping(value = "/{id}")
-    private ServerResponse<UserDTO> getInfo(@PathVariable("id") Long id) {
-        return userService.getInfo(id);
+    @GetMapping(value = "/{username}")
+    private ServerResponse<UserDTO> getInfo(@PathVariable("username") String  username) {
+        return userService.getInfo(username);
     }
 
     @PutMapping("/{id}")

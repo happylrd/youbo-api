@@ -17,7 +17,7 @@ public interface UserService {
 
     ServerResponse<UserDTO> login(LoginVO loginVO);
 
-    ServerResponse<UserDTO> getInfo(Long userId);
+    ServerResponse<UserDTO> getInfo(String  username);
 
     ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO);
 

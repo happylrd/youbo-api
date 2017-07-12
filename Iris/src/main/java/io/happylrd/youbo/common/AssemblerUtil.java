@@ -15,6 +15,7 @@ public class AssemblerUtil {
 
     public static UserDTO assembleIntoUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
