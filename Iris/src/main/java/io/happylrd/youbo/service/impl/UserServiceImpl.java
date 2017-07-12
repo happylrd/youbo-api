@@ -7,10 +7,7 @@ import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
-import io.happylrd.youbo.model.vo.LoginVO;
-import io.happylrd.youbo.model.vo.RegisterVO;
-import io.happylrd.youbo.model.vo.UserInfoVO;
-import io.happylrd.youbo.model.vo.UserVO;
+import io.happylrd.youbo.model.vo.*;
 import io.happylrd.youbo.repository.*;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -189,9 +187,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse<List<Comment>> listMyComment(Long userId) {
-        return ServerResponse.createBySuccess(
-                commentRepository.findByUserId(userId));
+    public ServerResponse<List<CommentVO>> listMyComment(Long userId) {
+        List<Comment> comments = commentRepository.findByUserId(userId);
+
+        List<CommentVO> commentVOs = comments.stream()
+                .map(comment -> assembleIntoCommentVO(comment))
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(commentVOs);
+    }
+
+    private CommentVO assembleIntoCommentVO(Comment comment) {
+        CommentVO commentVO = new CommentVO();
+        commentVO.setId(comment.getId());
+        commentVO.setContent(comment.getContent());
+        commentVO.setCreateAt(comment.getCreateAt());
+
+        User user = userRepository.findOne(comment.getUserId());
+        commentVO.setNickname(user.getNickname());
+        commentVO.setAvatar(user.getAvatar());
+
+        return commentVO;
     }
 
     @Override

@@ -5,10 +5,7 @@ import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
-import io.happylrd.youbo.model.vo.LoginVO;
-import io.happylrd.youbo.model.vo.RegisterVO;
-import io.happylrd.youbo.model.vo.UserInfoVO;
-import io.happylrd.youbo.model.vo.UserVO;
+import io.happylrd.youbo.model.vo.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public interface UserService {
 
     ServerResponse<Comment> publishComment(Long userId, Long tweetId, String content);
 
-    ServerResponse<List<Comment>> listMyComment(Long userId);
+    ServerResponse<List<CommentVO>> listMyComment(Long userId);
 
     ServerResponse<Collection> collectTweet(Long userId, Long tweetId);
 

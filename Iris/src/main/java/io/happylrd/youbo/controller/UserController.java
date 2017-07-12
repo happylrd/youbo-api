@@ -6,10 +6,7 @@ import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
-import io.happylrd.youbo.model.vo.LoginVO;
-import io.happylrd.youbo.model.vo.RegisterVO;
-import io.happylrd.youbo.model.vo.UserInfoVO;
-import io.happylrd.youbo.model.vo.UserVO;
+import io.happylrd.youbo.model.vo.*;
 import io.happylrd.youbo.service.FileService;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +77,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/comments")
-    private ServerResponse<List<Comment>> listMyComment(@PathVariable("id") Long id) {
+    private ServerResponse<List<CommentVO>> listMyComment(@PathVariable("id") Long id) {
         return userService.listMyComment(id);
     }
 
