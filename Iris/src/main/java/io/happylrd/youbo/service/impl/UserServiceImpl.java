@@ -5,6 +5,7 @@ import io.happylrd.youbo.common.AssemblerUtil;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
+import io.happylrd.youbo.model.dto.TweetDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.*;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -226,9 +228,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse<List<Collection>> listMyCollection(Long userId) {
-        return ServerResponse.createBySuccess(
-                collectionRepository.findByUserIdAndEnabledTrue(userId));
+    public ServerResponse<List<TweetDTO>> listMyCollection(Long userId) {
+        List<Tweet> tweets = tweetRepository.findByCollections_UserId(userId);
+
+        List<TweetDTO> tweetDTOs = tweets.stream()
+                .map(tweet -> {
+                    User user = userRepository.findOne(tweet.getUserId());
+                    String nickname = user.getNickname();
+                    String avatar = user.getAvatar();
+                    return AssemblerUtil.assembleIntoTweetDTO(tweet, nickname, avatar);
+                })
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(tweetDTOs);
     }
 
     @Override
@@ -259,9 +271,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse<List<Favorite>> listMyFavorite(Long userId) {
-        return ServerResponse.createBySuccess(
-                favoriteRepository.findByUserIdAndEnabledTrue(userId));
+    public ServerResponse<List<TweetDTO>> listMyFavorite(Long userId) {
+        List<Tweet> tweets = tweetRepository.findByFavorites_UserId(userId);
+
+        List<TweetDTO> tweetDTOs = tweets.stream()
+                .map(tweet -> {
+                    User user = userRepository.findOne(tweet.getUserId());
+                    String nickname = user.getNickname();
+                    String avatar = user.getAvatar();
+                    return AssemblerUtil.assembleIntoTweetDTO(tweet, nickname, avatar);
+                })
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(tweetDTOs);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import io.happylrd.youbo.common.ServerResponse;
 import io.happylrd.youbo.model.domain.*;
 import io.happylrd.youbo.model.dto.OrgDTO;
+import io.happylrd.youbo.model.dto.TweetDTO;
 import io.happylrd.youbo.model.dto.TweetFragmentDTO;
 import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.*;
@@ -88,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/collections")
-    private ServerResponse<List<Collection>> listMyCollection(@PathVariable("id") Long id) {
+    private ServerResponse<List<TweetDTO>> listMyCollection(@PathVariable("id") Long id) {
         return userService.listMyCollection(id);
     }
 
@@ -105,7 +106,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/favorites")
-    private ServerResponse<List<Favorite>> listMyFavorite(@PathVariable("id") Long id) {
+    private ServerResponse<List<TweetDTO>> listMyFavorite(@PathVariable("id") Long id) {
         return userService.listMyFavorite(id);
     }
 

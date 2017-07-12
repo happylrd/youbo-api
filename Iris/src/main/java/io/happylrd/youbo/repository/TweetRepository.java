@@ -8,4 +8,8 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     List<Tweet> findByUserIdOrderByCreateAtDesc(Long userId);
+
+    List<Tweet> findByCollections_UserId(Long userId);
+
+    List<Tweet> findByFavorites_UserId(Long userId);
 }
