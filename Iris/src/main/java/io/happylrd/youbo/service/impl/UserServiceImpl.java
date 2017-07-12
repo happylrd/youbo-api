@@ -10,6 +10,7 @@ import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
 import io.happylrd.youbo.model.vo.UserInfoVO;
+import io.happylrd.youbo.model.vo.UserVO;
 import io.happylrd.youbo.repository.*;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,34 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = AssemblerUtil.assembleIntoUserDTO(user);
 
         return ServerResponse.createBySuccess(userDTO);
+    }
+
+    @Override
+    public ServerResponse<UserVO> getInfoById(Long id) {
+        User user = userRepository.findOne(id);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        UserVO userVO = assembleIntoUserVO(user);
+        return ServerResponse.createBySuccess(userVO);
+    }
+
+    /**
+     * can be extract into util
+     */
+    private UserVO assembleIntoUserVO(User user) {
+        UserVO userVO = new UserVO();
+        userVO.setNickname(user.getNickname());
+        userVO.setAvatar(user.getAvatar());
+        userVO.setDescription(user.getDescription());
+        userVO.setTweetSize(user.getTweets().size());
+        userVO.setFollowingSize(user.getFollowing().size());
+        userVO.setFollowerSize(user.getFollowers().size());
+        userVO.setCommentSize(user.getComments().size());
+        userVO.setCollectionSize(user.getCollections().size());
+        userVO.setFavoriteSize(user.getFavorites().size());
+        return userVO;
     }
 
     @Override

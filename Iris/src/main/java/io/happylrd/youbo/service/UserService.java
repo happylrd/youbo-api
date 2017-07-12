@@ -8,6 +8,7 @@ import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
 import io.happylrd.youbo.model.vo.UserInfoVO;
+import io.happylrd.youbo.model.vo.UserVO;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ public interface UserService {
 
     ServerResponse<UserDTO> login(LoginVO loginVO);
 
-    ServerResponse<UserDTO> getInfo(String  username);
+    ServerResponse<UserDTO> getInfo(String username);
+
+    ServerResponse<UserVO> getInfoById(Long id);
 
     ServerResponse<UserInfoVO> updateInfo(Long userId, UserInfoVO userInfoVO);
 

@@ -9,6 +9,7 @@ import io.happylrd.youbo.model.dto.UserDTO;
 import io.happylrd.youbo.model.vo.LoginVO;
 import io.happylrd.youbo.model.vo.RegisterVO;
 import io.happylrd.youbo.model.vo.UserInfoVO;
+import io.happylrd.youbo.model.vo.UserVO;
 import io.happylrd.youbo.service.FileService;
 import io.happylrd.youbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class UserController {
     @GetMapping(value = "/{username}")
     private ServerResponse<UserDTO> getInfo(@PathVariable("username") String  username) {
         return userService.getInfo(username);
+    }
+
+    @GetMapping("/id/{id}")
+    private ServerResponse<UserVO> getInfoById(@PathVariable("id") Long id) {
+        return userService.getInfoById(id);
     }
 
     @PutMapping("/{id}")
