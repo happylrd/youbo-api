@@ -35,7 +35,7 @@ public class UserController {
     private String imageServerPrefix;
 
     @PostMapping(value = "/register")
-    private ServerResponse<UserDTO> register(RegisterVO registerVO) {
+    private ServerResponse<UserDTO> register(@RequestBody RegisterVO registerVO) {
         return userService.register(registerVO);
     }
 
