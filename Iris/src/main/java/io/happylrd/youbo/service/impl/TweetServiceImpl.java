@@ -51,6 +51,27 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
+    public ServerResponse<List<TweetDTO>> listTopTweet(Integer number) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createAt");
+
+        List<Tweet> tweetList = tweetRepository.findAll(sort);
+        if (tweetList.size() >= number) {
+            tweetList = tweetList.subList(0, number);
+        }
+
+        List<TweetDTO> tweetDTOList = tweetList.stream()
+                .map(tweet -> {
+                    User user = userRepository.findOne(tweet.getUserId());
+                    String nickname = user.getNickname();
+                    String avatar = user.getAvatar();
+                    return AssemblerUtil.assembleIntoTweetDTO(tweet, nickname, avatar);
+                })
+                .collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess(tweetDTOList);
+    }
+
+    @Override
     public ServerResponse<TweetDetailVO> getTweet(Long id) {
         Tweet tweet = tweetRepository.findOne(id);
         TweetDetailVO tweetDetailVO = assembleIntoTweetDetailVO(tweet);

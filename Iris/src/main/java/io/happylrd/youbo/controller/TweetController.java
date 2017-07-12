@@ -23,6 +23,11 @@ public class TweetController {
         return tweetService.listTweet();
     }
 
+    @GetMapping("/top/{number}")
+    private ServerResponse<List<TweetDTO>> listTop(@PathVariable("number") Integer number) {
+        return tweetService.listTopTweet(number);
+    }
+
     @GetMapping("/{id}")
     private ServerResponse<TweetDetailVO> get(@PathVariable("id") Long id) {
         return tweetService.getTweet(id);

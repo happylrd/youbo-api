@@ -12,6 +12,8 @@ public interface TweetService {
 
     ServerResponse<List<TweetDTO>> listTweet();
 
+    ServerResponse<List<TweetDTO>> listTopTweet(Integer number);
+
     ServerResponse<TweetDetailVO> getTweet(Long id);
 
     ServerResponse<List<Comment>> listComment(Long tweetId);
