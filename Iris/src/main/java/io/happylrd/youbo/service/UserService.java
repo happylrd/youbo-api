@@ -46,6 +46,8 @@ public interface UserService {
 
     ServerResponse<Favorite> cancelFavorite(Long favoriteId);
 
+    ServerResponse<UserFollow> doFollowing(Long id, Long targetId);
+
     ServerResponse<Org> createOrg(Long userId, OrgDTO orgDTO);
 
     ServerResponse<List<Org>> listMyOrg(Long userId);

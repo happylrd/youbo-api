@@ -121,6 +121,12 @@ public class UserController {
         return userService.cancelFavorite(favoriteId);
     }
 
+    @PostMapping("/{id}/following/{targetId}")
+    private ServerResponse<UserFollow> doFollowing(@PathVariable("id") Long id,
+                                                   @PathVariable("targetId") Long targetId) {
+        return userService.doFollowing(id, targetId);
+    }
+
     @PostMapping("/{id}/orgs")
     private ServerResponse<Org> createOrg(@PathVariable("id") Long id,
                                           @RequestBody OrgDTO orgDTO) {

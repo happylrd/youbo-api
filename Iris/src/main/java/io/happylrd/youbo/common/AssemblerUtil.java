@@ -32,6 +32,7 @@ public class AssemblerUtil {
         TweetDTO tweetDTO = new TweetDTO();
         tweetDTO.setId(tweet.getId());
         tweetDTO.setCreateAt(tweet.getCreateAt());
+        tweetDTO.setUserId(tweet.getUserId());
 
         List<TweetFragmentDTO> tweetFragmentDTOs = tweet.getTweetFragments()
                 .stream()

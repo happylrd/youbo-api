@@ -43,6 +43,9 @@ public class UserServiceImpl implements UserService {
     private FavoriteRepository favoriteRepository;
 
     @Autowired
+    private UserFollowRepository userFollowRepository;
+
+    @Autowired
     private OrgRepository orgRepository;
 
     @Autowired
@@ -328,6 +331,21 @@ public class UserServiceImpl implements UserService {
         favorite.setEnabled(false);
         return ServerResponse.createBySuccess("取消喜欢成功",
                 favoriteRepository.save(favorite));
+    }
+
+    @Override
+    public ServerResponse<UserFollow> doFollowing(Long id, Long targetId) {
+        long resultCount = userFollowRepository
+                .countByOriginIdAndTargetId(id, targetId);
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("已关注");
+        }
+        UserFollow userFollow = new UserFollow();
+        userFollow.setOriginId(id);
+        userFollow.setTargetId(targetId);
+        userFollow = userFollowRepository.save(userFollow);
+        return ServerResponse.createBySuccess("关注成功",
+                userFollow);
     }
 
     /**

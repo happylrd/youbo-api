@@ -20,6 +20,8 @@ public class TweetDTO {
 
     private Integer favoriteSize;
 
+    private Long userId;
+
     private String nickname;
 
     private String avatar;
@@ -70,6 +72,14 @@ public class TweetDTO {
 
     public void setFavoriteSize(Integer favoriteSize) {
         this.favoriteSize = favoriteSize;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getNickname() {
