@@ -382,10 +382,16 @@ public class UserServiceImpl implements UserService {
                     return userRepository.findOne(followerId);
                 })
                 .collect(Collectors.toList());
-
-        // TODO: simply set isFollowed as false
+        
         List<FollowVO> followVOs = users.stream()
-                .map(user -> assembleIntoFollowVO(user, false))
+                .map(user -> {
+                    Long resultCount = userFollowRepository.countByOriginIdAndTargetId(userId, user.getId());
+                    boolean isFollowedByMe = false;
+                    if (resultCount > 0){
+                        isFollowedByMe = true;
+                    }
+                    return assembleIntoFollowVO(user, isFollowedByMe);
+                })
                 .collect(Collectors.toList());
 
         return ServerResponse.createBySuccess(followVOs);
